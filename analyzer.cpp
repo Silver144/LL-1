@@ -25,9 +25,9 @@ void analyze(const std::string& _sentense)
 		}
 		else if (_terminator.find(_top) != _terminator.end())
 		{
-			if (_table.find(mnp(_sentense[_ip], _top)) != _table.end())
+			if (_table.find(table_index(_sentense[_ip], _top)) != _table.end())
 			{
-				symbol _t_sym = generator[_table[mnp(_sentense[_ip], _top)]].second;
+				symbol _t_sym = generator[_table[table_index(_sentense[_ip], _top)]].second;
 				for (auto i = _t_sym._val.size() - 1; i != -1; i--)
 					_symbol_stack.push(_t_sym._val[i]);
 			}

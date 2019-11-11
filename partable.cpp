@@ -3,25 +3,25 @@
 
 namespace partable
 {
-	std::set<terminator> _terminator = { '+', '-', '*', '/', '(', ')', 'n' };
+	std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _terminator = { '+', '-', '*', '/', '(', ')', 'n' };
 	std::vector<std::pair<non_terminator, symbol>> generator;
 
-	std::set<non_terminator> _non_terminator = { 'E', 'A', 'T', 'B', 'F' };
+	std::set<non_terminator, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _non_terminator = { 'E', 'A', 'T', 'B', 'F' };
 
-	std::map<non_terminator, std::set<terminator>> _first_set;
-	std::map<non_terminator, std::set<terminator>> _follow_set;
-	std::map<std::pair<terminator, non_terminator>, int> _table;
+	std::map<non_terminator, std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>>, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _first_set;
+	std::map<non_terminator, std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>>, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _follow_set;
+	std::map<table_index, int, std::integral_constant<decltype(&_t_less<table_index>), &_t_less<table_index>>> _table;
 }
 
-template <typename T>
-std::set<T> set_union(const std::set<T>& a, const std::set<T>& b)
+template <typename T, typename less>
+std::set<T, less> set_union(const std::set<T, less>& a, const std::set<T, less>& b)
 {
-	std::set<T> result = a;
+	std::set<T, less> result = a;
 	result.insert(b.begin(), b.end());
 	return result;
 }
 
-std::set<terminator> _get_first(symbol sym)
+std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _get_first(symbol sym)
 {
 	if (sym._val.size() == 0)
 		return { '$' };
@@ -84,6 +84,6 @@ void _create_partable()
 		if (_select_set.find('$') != _select_set.end())
 			_select_set = set_union(_select_set, _follow_set[generator[it].first]);
 		for (auto iter = _select_set.begin(); iter != _select_set.end(); iter++)
-			_table.insert(mpti(mnp(*iter, generator[it].first), it));
+			_table.insert(mti(table_index(*iter, generator[it].first), it));
 	}
 }
