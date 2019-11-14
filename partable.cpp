@@ -3,7 +3,7 @@
 
 namespace partable
 {
-	std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _terminator = { '+', '-', '*', '/', '(', ')', 'n' };
+	std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _terminator = { '+', '-', '*', '/', '(', ')', 'n', '$' };
 	std::vector<std::pair<non_terminator, symbol>> generator;
 
 	std::set<non_terminator, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _non_terminator = { 'E', 'A', 'T', 'B', 'F' };
@@ -43,7 +43,7 @@ std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_
 		}
 	}
 	else
-		throw("unresolved symbol");
+		return {};
 }
 
 void partable_init()
@@ -68,8 +68,8 @@ void partable_init()
 
 	_follow_set.insert(mnt('E', { '$', ')' }));
 	_follow_set.insert(mnt('A', { '$', ')' }));
-	_follow_set.insert(mnt('T', { '$', '+', '-' }));
-	_follow_set.insert(mnt('B', { '$', '+', '-' }));
+	_follow_set.insert(mnt('T', { '$', '+', '-', ')' }));
+	_follow_set.insert(mnt('B', { '$', '+', '-', ')' }));
 	_follow_set.insert(mnt('F', { '$', '*', '/' }));
 
 	_create_partable();

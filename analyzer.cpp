@@ -10,20 +10,20 @@ void analyze(const std::string& _sentense)
 	_symbol_stack.push('$');
 	_symbol_stack.push('E');
 	auto _top = _symbol_stack.top();
+	_symbol_stack.pop();
 	while (_top != '$')
 	{
-		if (_non_terminator.find(_top) != _non_terminator.end())
+		if (_terminator.find(_top) != _terminator.end())
 		{
 			if (_top == _sentense[_ip])
 			{
-				_ip++;
+				_sentense.size() - 1 != _ip && _ip++;
 				assert(!_symbol_stack.empty());
-				_symbol_stack.pop();
 			}
 			else
 				error();
 		}
-		else if (_terminator.find(_top) != _terminator.end())
+		else if (_non_terminator.find(_top) != _non_terminator.end())
 		{
 			if (_table.find(table_index(_sentense[_ip], _top)) != _table.end())
 			{
@@ -36,10 +36,14 @@ void analyze(const std::string& _sentense)
 		}
 		else
 			error();
+		do { _top = _symbol_stack.top(); _symbol_stack.pop(); }
+		while (_top == '$' && _symbol_stack.size() != 1);
+		
 	}
 }
 
 void error()
 {
-
+	printf("error\n");
+	exit(0);
 }

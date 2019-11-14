@@ -85,4 +85,5 @@ using mnt = std::map<non_terminator, std::set<terminator, std::integral_constant
 using mnp = std::pair<terminator, non_terminator>;
 using mti = std::map<table_index, int>::value_type;
 
+void partable_init();
 void _create_partable();
