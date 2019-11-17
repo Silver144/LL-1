@@ -70,14 +70,14 @@ template <> constexpr bool  _t_less<terminator>(const terminator& _Tx, const ter
 
 namespace partable
 {
-	extern std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _terminator;
-	extern std::vector<std::pair<non_terminator, symbol>> generator;
+	inline std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>> _terminator = { '+', '-', '*', '/', '(', ')', 'n', '$' };
+	inline std::vector<std::pair<non_terminator, symbol>> generator;
 
-	extern std::set<non_terminator, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _non_terminator;
+	inline std::set<non_terminator, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _non_terminator = { 'E', 'A', 'T', 'B', 'F' };;
 
-	// extern std::map<non_terminator, std::set<terminator>> _first_set;
-	// extern std::map<non_terminator, std::set<terminator>> _follow_set;
-	extern std::map<table_index, int, std::integral_constant<decltype(&_t_less<table_index>), &_t_less<table_index>>> _table;
+	inline std::map<non_terminator, std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>>, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _first_set;
+	inline std::map<non_terminator, std::set<terminator, std::integral_constant<decltype(&_t_less<terminator>), &_t_less<terminator>>>, std::integral_constant<decltype(&_t_less<non_terminator>), &_t_less<non_terminator>>> _follow_set;
+	inline std::map<table_index, int, std::integral_constant<decltype(&_t_less<table_index>), &_t_less<table_index>>> _table;
 }
 
 using mns = std::map<non_terminator, symbol>::value_type;
